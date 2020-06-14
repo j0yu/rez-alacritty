@@ -68,5 +68,6 @@ fi
 def commands():
     """Commands to set up environment for ``rez env alacritty``"""
     import os
+
     env.PATH.append(os.path.join("{root}", "bin"))
     env.XDG_DATA_DIRS.append(os.path.join("{root}", "share"))
