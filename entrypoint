@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# From commit 07320483905d71155fa4787581696163bd3a4c4d by pschyska of
+# https://copr-dist-git.fedorainfracloud.org/cgit/pschyska/alacritty/alacritty.git/tree/alacritty.spec
+
+set -euf -o pipefail
+
+SRC="$(pwd)"
+cargo build --release
+
+INSTALL_PATH="${INSTALL_PATH:-/usr}"
+mkdir -vp "$INSTALL_PATH"/{bin,share}
+
+ALACRITTY_BIN=$(readlink -f "$INSTALL_PATH"/bin/alacritty)
+cp -v target/release/alacritty "$ALACRITTY_BIN"
+
+cd "$INSTALL_PATH"/share
+mkdir -vp applications pixmaps alacritty man/man1 terminfo
+cp -v "$SRC"/extra/logo/alacritty-term.svg pixmaps/Alacritty.svg
+cp -v "$SRC"/alacritty.yml alacritty/alacritty.yml
+tic -xe alacritty,alacritty-direct -o terminfo "$SRC"/extra/alacritty.info
+gzip -c "$SRC"/extra/alacritty.man > man/man1/alacritty.1.gz
+sed "s|^Exec=.*|Exec=$ALACRITTY_BIN|g" "$SRC"/extra/linux/Alacritty.desktop \
+    > applications/Alacritty.desktop
+
+mkdir -vp bash-completion/completions zsh/site-functions fish/vendor_completions.d
+cp -v "$SRC"/extra/completions/alacritty.bash bash-completion/completions/alacritty
+cp -v "$SRC"/extra/completions/_alacritty zsh/site-functions/_alacritty
+cp -v "$SRC"/extra/completions/alacritty.fish fish/vendor_completions.d/alacritty.fish

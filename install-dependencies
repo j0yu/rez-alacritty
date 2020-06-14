@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# From commit 07320483905d71155fa4787581696163bd3a4c4d by pschyska of
+# https://copr-dist-git.fedorainfracloud.org/cgit/pschyska/alacritty/alacritty.git/tree/alacritty.spec
+
+set -euf -o pipefail
+yum install -y epel-release
+yum install -y \
+    rust \
+    cargo \
+    cmake \
+    freetype-devel \
+    fontconfig-devel \
+    libxcb-devel \
+    desktop-file-utils \
+    python3
+
