@@ -36,4 +36,5 @@ jobs:
       uses: actions/checkout@v2
 
     - run: rez build --install
-    - run: rez env alacritty -- alacritty README.md
+    - run: rez env alacritty -- alacritty --help
+    - run: rez env alacritty -- man alacritty
