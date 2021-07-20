@@ -3,7 +3,7 @@
 name = "alacritty"
 
 # Vendor packages: <vendor_version>+local.<our_version>
-__version__ = "0.4.3"
+__version__ = "0.8.0"
 version = __version__ + "+local.1.0.0"
 
 description = "A cross-platform, GPU-accelerated terminal emulator."
@@ -28,6 +28,8 @@ tools = ["alacritty"]
 #         if os.access(path, os.X_OK) and not os.path.isdir(path):
 #             executables.append(item)
 #     return executables
+
+relocatable = False
 
 build_command = r"""
 set -euf -o pipefail
